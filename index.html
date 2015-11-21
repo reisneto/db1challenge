@@ -1,4 +1,4 @@
-<html>
+<html ng-app="usuarioCRUD">
     <head>
         <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -7,52 +7,99 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="lib/bootstrap.css">
         <link rel="stylesheet" href="lib/style.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 		<script src="lib/angular.js"></script>
 		<script src="lib/jquery-2.1.4.min.js"></script>
 		<script src="lib/bootstrap.js"></script>
+
+		<script> 
+			angular.module("usuarioCRUD", []);
+			angular.module("usuarioCRUD")
+			.controller("userCtrl", function($scope) {
+				$scope.app = "Lista Usuários";	
+				$scope.usuarios = [
+					{name: "Alvaro Reis", bday: "99998888", ptype: "885.432.253-43" ,addr: "Rua Osvaldo Cruz, 417, Gloria"},
+					{name: "INdT", bday: "11993388", ptype: "46.187.045/0001-18", addr: "Rua do Comércio, 12, Pq. 10"},
+					{name: "Samsung", bday: "22949888", ptype: "18.631.848/0001-84", addr: "Av. Constantino Nery, 120, Chapada"}
+				];
+				
+				$scope.adicionarUsuario = function(usuario){
+					$scope.usuarios.push(angular.copy(usuario));
+					delete $scope.usuario;
+				};
+				$scope.apagarUsuario = function(usuarios){
+					$scope.usuario = usuarios.filter(function (usuario){
+						if(!usuario.selecionado) return usuario;
+					});
+				};
+
+				$scope.isUsuarioSelecionado = function(usuarios) {
+					return usuarios.some(function(usuario){
+						return usuario.selecionado;
+					});
+				};
+
+			});
+		</script>
     </head>
 	 
-    <body>
+    <body ng-controller="userCtrl">
 
+<div class="sectionarea">
+<h4>{{app}}</h4>	
+				<table ng-hide="usuarios.length == 0" class="table table-striped">
+					<tr>
+						<th></th>
+						<th> Nome </th>
+						<th> Data de Nascimento </th>
+						<th> CPF/CNPJ </th>
+						<th> Endereço </th>
+					</tr>
+					<tr ng-repeat="usuario in usuarios"> 
+						<td> <input type="checkbox" ng-model="contato.selecionado" /></td>
+						<td> {{usuario.name}}</td>   
+						<td> {{usuario.bday}} </td>   
+						<td> {{usuario.ptype}} </td> 
+						<td> {{usuario.addr}} </td>   
+					</tr>
+				</table>
 
-<section id="userform" class="db1form">
+<section id="userform">
 <h1> Adicionar Usuário </h1>
 
 <div id="actions" class="row">
 <div class="form-group col-md-6">
    <label for="name">Nome</label>
-   <input type="text" class="form-control" id="name">
+   <input type="text" class="form-control" id="name" ng-model="usuario.name">
  </div>
 
 
 <div class="form-group col-md-6">
    <label for="bday">Data de Nascimento</label>
-   <input type="date" class="form-control" id="bday">
+   <input type="date" class="form-control" id="bday" ng-model="usuario.bday">
  </div>
 </div>
 
 <div id="actions" class="row">
 <div class="form-group col-md-12">
    <label for="ptype">Tipo de Pessoa</label>
-   <input type="text" class="form-control" id="ptype">
+   <input type="text" class="form-control" id="ptype" ng-model="usuario.ptype">
  </div>
 </div>
 
 <div id="actions" class="row">
 <div class="form-group col-md-6">
    <label for="addr">Endereço</label>
-   <input type="text" class="form-control" id="addr">
+   <input type="text" class="form-control" id="addr" ng-model="usuario.addr">
  </div>
 </div>
 
 <div id="actions" class="row">
     <div class="col-md-12">
-      <button type="submit" class="btn btn-primary">Salvar</button>
+      <button ng-click="adicionarUsuario(usuario)" class="btn btn-primary" ng-disabled="!usuario">Salvar</button>
       <a href="index.html" class="btn btn-default">Cancelar</a>
     </div>
   </div>
 </section>
-
+</div>
 	</body>
 </html>
