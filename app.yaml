@@ -5,6 +5,10 @@ api_version: 1
 threadsafe: true
 
 handlers:
+
+- url: /rest/.*
+  script: main.application
+
 - url: (.*)/
   static_files: app\1/index.html
   upload: app
