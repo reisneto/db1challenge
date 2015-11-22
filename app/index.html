@@ -1,0 +1,79 @@
+<html lang="pt-br" ng-app="usuarioCRUD">
+    <head>
+        <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>DB1 | Formulário de Cadastro</title>
+        <meta name="description" content="formulário de cadastro de novos usuários">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/lib/bootstrap.css">
+        <link rel="stylesheet" href="/lib/style.css">
+		<script src="/lib/angular.js"></script>
+		<script src="/lib/angular-route.js"></script>
+		<script src="/lib/bootstrap.js"></script>
+
+		<script> 
+			angular.module("usuarioCRUD", ['ngRoute']);
+
+angular.module("usuarioCRUD").config(function($routeProvider) {
+
+    $routeProvider
+        // route for the home page
+        .when('/', {
+            templateUrl : "/views/lista_users.html",
+            controller  : "userCtrl"
+        })
+        .when('/cadastro', {
+            templateUrl : "/views/main.html",
+            controller  : "userCtrl"
+        })
+          $routeProvider.otherwise({
+    		redirectTo : '/'
+  		});
+});
+
+
+			angular.module("usuarioCRUD")
+			.controller("userCtrl", function($scope, $location) {
+				$scope.app = "Lista Usuários";	
+				$scope.ptype_header = "fisica";
+				$scope.fisPtrn = /\d{3}.\d{3}.\d{3}-\d{2}/;
+				$scope.jurPtrn = /\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}/;
+				$scope.usuarios = [
+					{name: "Alvaro Reis", bday: "99998888", ptype: "885.432.253-43" ,addr: "Rua Osvaldo Cruz, 417, Gloria"},
+					{name: "INdT", bday: "11993388", ptype: "46.187.045/0001-18", addr: "Rua do Comércio, 12, Pq. 10"},
+					{name: "Samsung", bday: "22949888", ptype: "18.631.848/0001-84", addr: "Av. Constantino Nery, 120, Chapada"}
+				];
+				
+				$scope.adicionarUsuario = function(usuario){
+					$scope.usuarios.push(angular.copy(usuario));
+					delete $scope.usuario;
+					$scope.userForm.$setPristine();
+					$location.path("/");
+				};
+				$scope.apagarUsuario = function(usuarios){
+					$scope.usuario = usuarios.filter(function (usuario){
+						if(!usuario.selecionado) return usuario;
+					});
+				};
+
+				$scope.isUsuarioSelecionado = function(usuarios) {
+					return usuarios.some(function(usuario){
+						return usuario.selecionado;
+					});
+				};
+
+				$scope.fillAll = function(userForm)
+				{
+					//response = false;
+					response = (userForm.nome.$dirty && userForm.bday.$dirty && userForm.ptype.$dirty && userForm.addr.$dirty) ? true : false;
+					return response;
+				};
+
+			});
+		</script>
+    </head>
+	 
+    <body>
+    	<div  class="sectionarea" ng-view></div>
+	</body>
+</html>

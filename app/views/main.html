@@ -1,0 +1,50 @@
+<div>
+<h4>{{app}}</h4>	
+<h1> Adicionar Usuário </h1>
+<form name="userForm">
+<div class="row">
+<div class="form-group col-md-6">
+   <label for="name">Nome</label>
+   <input type="text" class="form-control" id="name" ng-model="usuario.name" name="nome" ng-required="true">
+ </div>
+
+
+<div class="form-group col-md-6">
+   <label for="bday">Data de Nascimento</label>
+   <input type="date" class="form-control" id="bday" ng-model="usuario.bday" name="bday" ng-required="true">
+ </div>
+</div>
+
+<div class="row">
+<div class="form-group col-md-4">
+	<label for="ptype_header">Tipo de Pessoa</label>
+   <select class="form-control" id="ptype_header" ng-model="ptype_header"> 
+   		<option value="fisica" selected> Pessoa Física </option> 
+   		<option value="juridica"> Pessoa Jurídica </option> 
+   	</select>
+ </div>
+
+<div class="form-group col-md-8">
+   <label for="ptype">CPF/CNPJ</label>
+   <input type="text" class="form-control" ng-model="usuario.ptype" name="ptype" ng-required="true" ng-pattern="(ptype_header == 'fisica') ? fisPtrn : jurPtrn" placeholder="{{(ptype_header == 'fisica') ? '777.777.777-77 sem pontos e traços' : '77.777.777/7777-77 sem pontos e traços'}}">
+ </div>
+</div>
+
+<div class="row">
+<div class="form-group col-md-6">
+   <label for="addr">Endereço</label>
+   <input type="text" class="form-control" id="addr" ng-model="usuario.addr" name="addr" ng-required="true">
+ </div>
+</div>
+</form>
+
+<div ng-show="userForm.$invalid && fillAll(userForm)" class="alert alert-danger">
+	Por favor, preencha todos os campos
+</div>
+<div class="row">
+    <div class="col-md-12">
+      <button ng-click="adicionarUsuario(usuario)" class="btn btn-primary" ng-disabled="userForm.$invalid">Salvar</button>
+      <a href="#/" class="btn btn-default">Cancelar</a>
+    </div>
+  </div>
+</div>

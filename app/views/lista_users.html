@@ -1,0 +1,21 @@
+<h4>{{app}}</h4>	
+				<table ng-hide="usuarios.length == 0" class="table table-striped">
+					<tr>
+						<th> Nome </th>
+						<th> Data de Nascimento </th>
+						<th> CPF/CNPJ </th>
+						<th> Endereço </th>
+					</tr>
+					<tr ng-repeat="usuario in usuarios"> 
+						<td> {{usuario.name}}</td>   
+						<td> {{usuario.bday}} </td>   
+						<td> {{usuario.ptype}} </td> 
+						<td> {{usuario.addr}} </td>   
+					</tr>
+				</table>
+<div class="row">
+    <div class="col-md-12">
+      <a href="#/cadastro" class="btn btn-primary" ng-disabled="userForm.$invalid">Novo Usuário</a>
+    </div>
+  </div>
+</div>
