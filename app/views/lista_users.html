@@ -9,7 +9,7 @@
 					</tr>
 					<tr ng-repeat="usuario in usuarios"> 
 						<td> {{usuario.name}}</td>   
-						<td> {{usuario.bday}} </td>   
+						<td> {{usuario.bday | date}} </td>   
 						<td> {{usuario.ptype}} </td> 
 						<td> {{usuario.addr}} </td>   
 					</tr>
