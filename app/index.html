@@ -63,9 +63,8 @@ angular.module("usuarioCRUD").config(function($routeProvider) {
 				$scope.adicionarUsuario = function(usuario){
 					$http.post('/rest/insert', usuario)
     					.success(function(data, status, headers, config) {
-      					
+      					$location.url("/");
     				});
-					$location.path("/");
 				};
 				$scope.apagarUsuario = function(usuarios){
 					$scope.usuario = usuarios.filter(function (usuario){
@@ -85,15 +84,6 @@ angular.module("usuarioCRUD").config(function($routeProvider) {
 					response = (userForm.nome.$dirty && userForm.bday.$dirty && userForm.ptype.$dirty && userForm.addr.$dirty) ? true : false;
 					return response;
 				};
-
-				$scope.submitInsert = function(user) {
-    				$http.post('/rest/insert', user)
-    				.success(function(data, status, headers, config) {
-      				$rootScope.guests.push(data);
-      				$rootScope.status = '';
-    			});
-    				$location.path('/');
-  				}
 
 			});
 		</script>
