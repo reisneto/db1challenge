@@ -5,7 +5,7 @@ from google.appengine.ext.webapp import template
 import webapp2
 
 def AsDict(user):
-	return {'id': user.key.id(), 'name': user.name}
+	return {'id': user.key.id(), 'name': user.name, 'bday': user.bday, 'ptype': user.ptype, 'addr': user.addr}
 
 
 class RestHandler(webapp2.RequestHandler):
@@ -19,7 +19,7 @@ class RestHandler(webapp2.RequestHandler):
 
 class QueryHandler(RestHandler):
 	def get(self):
-		users = model.AllUsers()
+		users = model.allUsers()
 		r = [ AsDict(user) for user in users ]
 		self.SendJson(r)
 
@@ -32,6 +32,6 @@ class InsertHandler(RestHandler):
 		self.SendJson(r)
 
 application = webapp2.WSGIApplication([
-    ('rest/query', QueryHandler),
+    ('/rest/query', QueryHandler),
     ('/rest/insert', InsertHandler)
 ], debug=True)

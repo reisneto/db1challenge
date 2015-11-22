@@ -21,7 +21,8 @@ angular.module("usuarioCRUD").config(function($routeProvider) {
         // route for the home page
         .when('/', {
             templateUrl : "/views/lista_users.html",
-            controller  : "userCtrl"
+            controller  : "userCtrl",
+            resolve    : { 'userService': 'userService' },
         })
         .when('/cadastro', {
             templateUrl : "/views/main.html",
@@ -33,17 +34,25 @@ angular.module("usuarioCRUD").config(function($routeProvider) {
 });
 
 
+			angular.module("usuarioCRUD").factory('userService', function($rootScope, $http, $q, $log) {
+  				var deferred = $q.defer();
+  				console.log("entou aqui");
+  				$http.get('rest/query')
+  					.success(function(data, status, headers, config) {
+    			$rootScope.usuarios = data;
+    			deferred.resolve();
+    			$rootScope.status = '';
+  				});
+  				return deferred.promise;
+			});
+
 			angular.module("usuarioCRUD")
 			.controller("userCtrl", function($scope, $http, $location) {
 				$scope.app = "Lista Usuários";	
 				$scope.ptype_header = "fisica";
 				$scope.fisPtrn = /\d{3}.\d{3}.\d{3}-\d{2}/;
 				$scope.jurPtrn = /\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}/;
-				$scope.usuarios = [
-					{name: "Alvaro Reis", bday: "99998888", ptype: "885.432.253-43" ,addr: "Rua Osvaldo Cruz, 417, Gloria"},
-					{name: "INdT", bday: "11993388", ptype: "46.187.045/0001-18", addr: "Rua do Comércio, 12, Pq. 10"},
-					{name: "Samsung", bday: "22949888", ptype: "18.631.848/0001-84", addr: "Av. Constantino Nery, 120, Chapada"}
-				];
+				
 				
 				$scope.adicionarUsuario = function(usuario){
 					$scope.usuarios.push(angular.copy(usuario));
