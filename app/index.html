@@ -2,91 +2,21 @@
     <head>
         <meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>DB1 | Formulário de Cadastro</title>
+        <title>DB1 Challenge</title>
         <meta name="description" content="formulário de cadastro de novos usuários">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/lib/bootstrap.css">
         <link rel="stylesheet" href="/lib/style.css">
-        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
 
 		<script src="/lib/angular.js"></script>
 		<script src="/lib/angular-route.js"></script>
 		<script src="/lib/ngAutocomplete.js"></script>
+		<script src="/lib/app.js"></script>
+		<script src="/lib/controllers.js"></script>
+		<script src="/lib/services.js"></script>
 		<script src="/lib/jquery-2.1.4.min.js"></script>
 		<script src="/lib/bootstrap.js"></script>
-
-		<script> 
-			angular.module("usuarioCRUD", ['ngRoute', 'ngAutocomplete']);
-
-angular.module("usuarioCRUD").config(function($routeProvider) {
-
-    $routeProvider
-        // route for the home page
-        .when('/', {
-            templateUrl : "/views/lista_users.html",
-            controller  : "userCtrl",
-            resolve    : { 'userService': 'userService' },
-        })
-        .when('/cadastro', {
-            templateUrl : "/views/main.html",
-            controller  : "userCtrl"
-        })
-          $routeProvider.otherwise({
-    		redirectTo : '/'
-  		});
-});
-
-
-			angular.module("usuarioCRUD").factory('userService', function($rootScope, $http, $q, $log) {
-  				var deferred = $q.defer();
-  				console.log("entou aqui");
-  				$http.get('rest/query')
-  					.success(function(data, status, headers, config) {
-    			$rootScope.usuarios = data;
-    			deferred.resolve();
-    			$rootScope.status = '';
-  				});
-  				return deferred.promise;
-			});
-
-			angular.module("usuarioCRUD")
-			.controller("userCtrl", function($scope, $http, $location) {
-				$scope.result1 = '';
-    			$scope.options1 = null;
-    			$scope.details1 = '';
-				$scope.app = "Lista Usuários";	
-				$scope.ptype_header = "fisica";
-				$scope.fisPtrn = /\d{3}.\d{3}.\d{3}-\d{2}/;
-				$scope.jurPtrn = /\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}/;
-				
-				
-				$scope.adicionarUsuario = function(usuario){
-					$http.post('/rest/insert', usuario)
-    					.success(function(data, status, headers, config) {
-      					$location.url("/");
-    				});
-				};
-				$scope.apagarUsuario = function(usuarios){
-					$scope.usuario = usuarios.filter(function (usuario){
-						if(!usuario.selecionado) return usuario;
-					});
-				};
-
-				$scope.isUsuarioSelecionado = function(usuarios) {
-					return usuarios.some(function(usuario){
-						return usuario.selecionado;
-					});
-				};
-
-				$scope.fillAll = function(userForm)
-				{
-					//response = false;
-					response = (userForm.nome.$dirty && userForm.bday.$dirty && userForm.ptype.$dirty && userForm.addr.$dirty) ? true : false;
-					return response;
-				};
-
-			});
-		</script>
     </head>
 	 
     <body>
