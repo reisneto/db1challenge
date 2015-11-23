@@ -13,7 +13,7 @@ angular.module("usuarioCRUD", ['ngRoute', 'ngAutocomplete'])
             templateUrl : "/views/main.html",
             controller  : "userCtrl"
         })
-          $routeProvider.otherwise({
-    		redirectTo : '/'
-  		});
-});
+        $routeProvider.otherwise({
+          redirectTo : '/'
+      });
+    });
